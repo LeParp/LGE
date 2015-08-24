@@ -13,6 +13,9 @@ class Player : public Character
         Camera& camera();
         Camera const& camera() const;
 
+        Node& vertical_rotor();
+        Node& horizontal_rotor();
+
     private:
         Camera camera_;
         Node vertical_rotor_, horizontal_rotor_;

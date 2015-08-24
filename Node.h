@@ -28,7 +28,10 @@ class Node
 
         void move(glm::vec3 value); // Move the node in local space
         void translate(glm::vec3 value); // Move the node in parent space
-        void rotate(glm::vec3 axis, float angle);
+        void rotate(glm::vec3 axis, float angle); // Axis in local space
+
+        glm::vec3 position();
+        glm::vec3 orientation(glm::vec3 local); // Transforms local to absolute orientation
 
     private:
         glm::mat4 local_model() const;

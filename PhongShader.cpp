@@ -60,7 +60,7 @@ PhongShader::PhongShader(unsigned lights_count)
 
         vec3 light_impact(int n, vec3 material_diffuse, vec3 material_specular)
         {
-            float ambient_impact = 0.03;
+            float ambient_impact = 0.01;
             vec3 ambient_color = material_diffuse * (ambient_impact * Lights[n].color);
 
             vec3 light_position_W = Lights[n].position;
@@ -104,8 +104,8 @@ PhongShader::PhongShader(unsigned lights_count)
                 final_color.rgb += light_impact(i, material_diffuse, material_specular);
             }
 
-            /*if(fragment_position_E.x >= 0.0)
-                final_color.rgb /= 3.0;*/
+            /*if(final_color.r > 1.0 || final_color.g > 1.0 || final_color.b > 1.0)
+                discard;*/
 
             final_color.rgb = pow(final_color.rgb, vec3(1.0 / gamma));
         }

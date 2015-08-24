@@ -1,6 +1,13 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
+#include <glm/vec3.hpp>
+
+class Node;
+class Mesh;
+class Light;
+class Camera;
+
 struct GameStarted
 {
 
@@ -8,42 +15,79 @@ struct GameStarted
 
 struct WindowCreated
 {
-    WindowCreated(unsigned w, unsigned h) : width(w), height(h) {}
     unsigned width, height;
 };
 
 struct WindowResized
 {
-    WindowResized(unsigned w, unsigned h) : width(w), height(h) {}
     unsigned width, height;
 };
 
-class Mesh;
-struct MeshAdded
+struct SetPlayable
 {
-    MeshAdded(Mesh& m) : mesh(m) {}
+    unsigned entity_id;
+    Node& body;
+    Node& vertical_rotor;
+    Node& horizontal_rotor;
+};
+
+struct SetDynamicBody
+{
+    unsigned entity_id;
     Mesh& mesh;
 };
 
-class Light;
-struct LightAdded
+struct SetGround
 {
-    LightAdded(Light& l) : light(l) {}
+    unsigned entity_id;
+    Mesh& mesh;
+};
+
+struct Move
+{
+    unsigned entity_id;
+    glm::vec3 movement;
+};
+
+struct Rotate
+{
+    unsigned entity_id;
+    glm::vec3 axis;
+    float angle;
+};
+
+struct ApplyForce
+{
+    unsigned entity_id;
+    glm::vec3 force;
+};
+
+struct SetRenderable
+{
+    unsigned entity_id;
+    Mesh& mesh;
+};
+
+struct SetLighter
+{
+    unsigned entity_id;
     Light& light;
 };
 
-class Camera;
-struct CameraAdded
+struct SetViewer
 {
-    CameraAdded(Camera& c) : camera(c) {}
+    unsigned entity_id;
     Camera& camera;
 };
 
-class Player;
-struct PlayerAdded
+struct Play
 {
-    PlayerAdded(Player& p) : player(p) {}
-    Player& player;
+    unsigned entity_id;
+};
+
+struct View
+{
+    unsigned entity_id;
 };
 
 #endif // EVENTS_H

@@ -48,8 +48,8 @@ Model Loader::load_model(std::string const& filename)
         Camera camera(horizontal_rotor);
 
         vertical_rotor.translate({0.0, -1.0, 0.0});
-        camera.translate({0.0, 3.5, 3.5});
-        camera.rotate({1.0, 0.0, 0.0}, glm::radians(-45.0));
+        horizontal_rotor.translate({0.0, 0.0, -2.0});
+        camera.translate({0.0, 0.0, 6.0});
 
         model.add_mesh("Body", std::move(mesh));
         model.add_camera("Camera", std::move(camera));
@@ -71,6 +71,7 @@ Model Loader::load_model(std::string const& filename)
                               {{10.0, 0.0, 10.0}, {0.0, 1.0, 0.0}, {1.0, 1.0}},
                               {{-10.0, 0.0, 10.0}, {0.0, 1.0, 0.0}, {0.0, 1.0}}
                           };
+
         mesh.material().diffuse_color() = {1.0, 0.6, 0.0};
         mesh.material().specular_color() = {1.0, 1.0, 1.0};
         mesh.material().shininess() = 128.0;
@@ -94,7 +95,7 @@ Model Loader::load_model(std::string const& filename)
         light3.attenuations() = {1.0, 0.045, 0.0075};
         light3.translate({4.0, 0.0, -4.0});
 
-        model.add_mesh("Ground", std::move(mesh));
+        model.add_mesh("Terrain", std::move(mesh));
         model.add_light("Light", std::move(light));
         model.add_light("Light2", std::move(light2));
         model.add_light("Light3", std::move(light3));

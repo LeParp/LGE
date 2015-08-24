@@ -1,0 +1,12 @@
+player:
+{
+    model:"player.mdl"
+    renderable:"Body"
+    physic:"Body"
+    playable:
+    {
+        vertical-rotor:"Vertical_rotor"
+        horizontal-rotor:"Horizontal_rotor"
+        camera:"Camera"
+    }
+}

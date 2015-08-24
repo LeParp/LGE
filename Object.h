@@ -20,6 +20,9 @@ class Object : private Node
         using Node::move;
         using Node::translate;
         using Node::rotate;
+
+        using Node::position;
+        using Node::orientation;
 };
 
 #endif // OBJECT_H

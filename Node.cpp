@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/vector_relational.hpp>
 
 Node::Node() :
     parent_(nullptr)
@@ -133,6 +134,16 @@ glm::mat4 Node::local_model() const
             rotation_[1][0], rotation_[1][1], rotation_[1][2], 0.0,
             rotation_[2][0], rotation_[2][1], rotation_[2][2], 0.0,
             translation_[0], translation_[1], translation_[2], 1.0};
-    //return glm::translate(glm::mat4(), translation_) * glm::mat4(rotation_);
-    //return glm::mat4(rotation_) * glm::translate(glm::mat4(), translation_);
+}
+
+
+glm::vec3 Node::position()
+{
+    return glm::vec3(model()[3][0], model()[3][1], model()[3][2]);
+}
+
+glm::vec3 Node::orientation(glm::vec3 local)
+{
+    glm::vec3 n_local = glm::normalize(local);
+    return glm::normalize(glm::vec3(model() * glm::vec4(n_local, 0.0)));
 }

@@ -19,3 +19,13 @@ Camera const& Player::camera() const
 {
     return camera_;
 }
+
+Node& Player::vertical_rotor()
+{
+    return vertical_rotor_;
+}
+
+Node& Player::horizontal_rotor()
+{
+    return horizontal_rotor_;
+}

@@ -6,8 +6,9 @@
 
 class Dispatcher : public EventDispatcher<GameStarted,
                                           WindowCreated, WindowResized,
-                                          MeshAdded, LightAdded, CameraAdded,
-                                          PlayerAdded>
+                                          SetPlayable, Play,
+                                          SetGround, SetDynamicBody, Move, Rotate, ApplyForce,
+                                          SetRenderable, SetLighter, SetViewer, View>
 {
 };
 

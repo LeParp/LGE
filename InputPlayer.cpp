@@ -4,19 +4,19 @@
 #include <glm/gtx/vector_angle.hpp>
 
 #include "Player.h"
-#include "Camera.h"
-#include "Node.h"
+
+// Vitesse de rotation du body par rapport à sa vitesse de mouvement
+const float body_rotation_speed = 1.0;
 
 // Angle minimal entre la direction de la caméra et celle du rotor vertical
-const float min_up_angle = 80.0;
-const float min_down_angle = 2.5;
+const float min_up_angle = 90.0;
+const float min_down_angle = 15.0;
 
-InputPlayer::InputPlayer(Player& player) :
-    body_(player.mesh()),
-    camera_(player.camera()),
-    horizontal_rotor_(camera_.parent()), // Rotor horizontal autour duquel tourne la caméra
-    vertical_rotor_(horizontal_rotor_.parent()), // Rotor vertical autour duquel tournent la caméra et le body
-    rotation_delay_(0)
+InputPlayer::InputPlayer(Node& body, Node& vertical_rotor, Node& horizontal_rotor) :
+    body_(body),
+    vertical_rotor_(vertical_rotor), // Rotor vertical autour duquel tournent la caméra et le body
+    horizontal_rotor_(horizontal_rotor), // Rotor horizontal autour duquel tourne la caméra
+    rotation_delay_(0.0)
 {
 
 }
@@ -30,16 +30,18 @@ void InputPlayer::move(glm::vec2 movement)
     // Rotation incrémentielle du body pour revenir à l'orientation du rotor vertical
     if(movement.x != 0.0 || movement.y != 0.0)
     {
-        if(rotation_delay_ > 0.1)
+        const float rotation_speed = body_rotation_speed * glm::length(movement);
+
+        if(rotation_delay_ > rotation_speed)
         {
-            body_.rotate({0.0, 1.0, 0.0}, 0.1);
-            rotation_delay_ -= 0.1;
+            body_.rotate({0.0, 1.0, 0.0}, rotation_speed);
+            rotation_delay_ -= rotation_speed;
         }
 
-        else if(rotation_delay_ < -0.1)
+        else if(rotation_delay_ < -rotation_speed)
         {
-            body_.rotate({0.0, 1.0, 0.0}, -0.1);
-            rotation_delay_ += 0.1;
+            body_.rotate({0.0, 1.0, 0.0}, -rotation_speed);
+            rotation_delay_ += rotation_speed;
         }
 
         else
@@ -57,34 +59,28 @@ void InputPlayer::rotate(glm::vec2 rotation)
 
     // On sauvegarde l'angle le plus court vers l'orientation du rotor
     rotation_delay_ += rotation.x;
-    while(rotation_delay_ >= glm::radians(180.0))
+    while(rotation_delay_ > glm::radians(180.0))
         rotation_delay_ -= glm::radians(360.0);
-    while(rotation_delay_ <= glm::radians(-180.0))
+    while(rotation_delay_ < glm::radians(-180.0))
         rotation_delay_ += glm::radians(360.0);
 
     // Vérification des limites de rotation par rapport à l'axe horizontal
-    glm::mat4 new_mat = glm::rotate(glm::inverse(camera_.view()), rotation.y, {1.0, 0.0, 0.0});
-    glm::mat4 rotor_mat = vertical_rotor_.model();
-
-    glm::vec3 new_forward = glm::vec3(new_mat * glm::vec4(0.0, 0.0, -1.0, 0.0)); // Direction de la vue après rotation
-    glm::vec3 rotor_back = glm::vec3(rotor_mat * glm::vec4(0.0, 0.0, 1.0, 0.0));
+    glm::vec3 forward = glm::vec3(horizontal_rotor_.orientation({0.0, 0.0, -1.0})); // Direction actuelle de la vue
 
     if(rotation.y > 0.0)
     {
-        glm::vec3 rotor_up = glm::vec3(rotor_mat * glm::vec4(0.0, 1.0, 0.0, 0.0));
+        glm::vec3 rotor_up = glm::vec3(vertical_rotor_.orientation({0.0, 1.0, 0.0}));
 
-        if(glm::angle(new_forward, rotor_up) <= glm::radians(min_up_angle) || // Empêche que le regard de la caméra ne monte
-           glm::angle(new_forward, rotor_back) <= glm::radians(90.0)) // Empêche le retournement de la caméra
-            rotation.y = 0.0;
+        // Le mouvement s'arrête lorsque l'angle entre la verticale (haut) et la direction de la caméra est inférieur à min_up_angle
+        rotation.y = glm::min(rotation.y, glm::angle(forward, rotor_up) - glm::radians(min_up_angle));
     }
 
     else if(rotation.y < 0.0)
     {
-        glm::vec3 rotor_down = glm::vec3(rotor_mat * glm::vec4(0.0, -1.0, 0.0, 0.0));
+        glm::vec3 rotor_down = glm::vec3(vertical_rotor_.orientation({0.0, -1.0, 0.0}));
 
-        if(glm::angle(new_forward, rotor_down) <= glm::radians(min_down_angle) || // Empêche que le regard de la caméra ne descende
-           glm::angle(new_forward, rotor_back) <= glm::radians(90.0)) // Empêche le retournement de la caméra
-            rotation.y = 0.0;
+        // Le mouvement s'arrête lorsque l'angle entre la verticale (bas) et la direction de la caméra est inférieur à min_down_angle
+        rotation.y = glm::max(rotation.y, -(glm::angle(forward, rotor_down) - glm::radians(min_down_angle)));
     }
 
     horizontal_rotor_.rotate({1.0, 0.0, 0.0}, rotation.y);

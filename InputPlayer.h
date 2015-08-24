@@ -3,24 +3,19 @@
 
 #include <glm/vec2.hpp>
 
-class Player;
-class Mesh;
-class Camera;
 class Node;
-
 class InputPlayer
 {
     public:
-        InputPlayer(Player& player);
+        InputPlayer(Node& body, Node& vertical_rotor, Node& horizontal_rotor);
 
         void move(glm::vec2 movement);
         void rotate(glm::vec2 rotation);
 
     private:
-        Mesh& body_;
-        Camera& camera_;
-        Node& horizontal_rotor_;
+        Node& body_;
         Node& vertical_rotor_;
+        Node& horizontal_rotor_;
 
         float rotation_delay_;
 };

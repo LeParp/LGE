@@ -27,47 +27,47 @@ void Model::add_camera(std::string name, Camera&& new_camera)
 }
 
 
-Node&& Model::get_node(std::string name)
+Node& Model::node(std::string name)
 {
     assert(nodes_.find(name) != nodes_.end());
-    return std::move(nodes_[name]);
+    return nodes_[name];
 }
 
-Mesh&& Model::get_mesh(std::string name)
+Mesh& Model::mesh(std::string name)
 {
     assert(meshes_.find(name) != meshes_.end());
-    return std::move(meshes_[name]);
+    return meshes_[name];
 }
 
-Light&& Model::get_light(std::string name)
+Light& Model::light(std::string name)
 {
     assert(lights_.find(name) != lights_.end());
-    return std::move(lights_[name]);
+    return lights_[name];
 }
 
-Camera&& Model::get_camera(std::string name)
+Camera& Model::camera(std::string name)
 {
     assert(cameras_.find(name) != cameras_.end());
-    return std::move(cameras_[name]);
+    return cameras_[name];
 }
 
 
-std::unordered_map<std::string, Node>&& Model::get_nodes()
+UMapProxy<std::string, Node> Model::nodes()
 {
-    return std::move(nodes_);
+    return UMapProxy<std::string, Node>(nodes_);
 }
 
-std::unordered_map<std::string, Mesh>&& Model::get_meshes()
+UMapProxy<std::string, Mesh> Model::meshes()
 {
-    return std::move(meshes_);
+    return UMapProxy<std::string, Mesh>(meshes_);
 }
 
-std::unordered_map<std::string, Light>&& Model::get_lights()
+UMapProxy<std::string, Light> Model::lights()
 {
-    return std::move(lights_);
+    return UMapProxy<std::string, Light>(lights_);
 }
 
-std::unordered_map<std::string, Camera>&& Model::get_cameras()
+UMapProxy<std::string, Camera> Model::cameras()
 {
-    return std::move(cameras_);
+    return UMapProxy<std::string, Camera>(cameras_);
 }

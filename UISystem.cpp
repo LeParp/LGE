@@ -22,7 +22,7 @@ UISystem::UISystem(Dispatcher& dispatcher) :
 
     listener_.log<GameStarted>([this](GameStarted const& event)
         {
-            dispatcher_.emit(WindowCreated(window_.getSize().x, window_.getSize().y));
+            dispatcher_.emit(WindowCreated{window_.getSize().x, window_.getSize().y});
         });
 }
 
@@ -43,7 +43,7 @@ void UISystem::update()
 
         else if(event.type == sf::Event::Resized)
         {
-            dispatcher_.emit(WindowResized(event.size.width, event.size.height));
+            dispatcher_.emit(WindowResized{event.size.width, event.size.height});
         }
     }
 }

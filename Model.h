@@ -1,13 +1,15 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 #include "Node.h"
 #include "Mesh.h"
 #include "Light.h"
 #include "Camera.h"
+
+#include "ContainerProxy.h"
 
 class Model
 {
@@ -19,15 +21,15 @@ class Model
         void add_light(std::string name, Light&& new_light);
         void add_camera(std::string name, Camera&& new_camera);
 
-        Node&& get_node(std::string name);
-        Mesh&& get_mesh(std::string name);
-        Light&& get_light(std::string name);
-        Camera&& get_camera(std::string name);
+        Node& node(std::string name);
+        Mesh& mesh(std::string name);
+        Light& light(std::string name);
+        Camera& camera(std::string name);
 
-        std::unordered_map<std::string, Node>&& get_nodes();
-        std::unordered_map<std::string, Mesh>&& get_meshes();
-        std::unordered_map<std::string, Light>&& get_lights();
-        std::unordered_map<std::string, Camera>&& get_cameras();
+        UMapProxy<std::string, Node> nodes();
+        UMapProxy<std::string, Mesh> meshes();
+        UMapProxy<std::string, Light> lights();
+        UMapProxy<std::string, Camera> cameras();
 
     private:
         std::unordered_map<std::string, Node> nodes_;

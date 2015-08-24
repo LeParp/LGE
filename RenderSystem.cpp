@@ -8,7 +8,8 @@
 
 RenderSystem::RenderSystem(Dispatcher& dispatcher) :
     dispatcher_(dispatcher),
-    shader_(1)
+    shader_(1),
+    active_camera(0)
 {
     dispatcher_.attach(listener_);
 
@@ -26,12 +27,12 @@ RenderSystem::RenderSystem(Dispatcher& dispatcher) :
             resize(event.width, event.height);
         });
 
-    listener_.log<MeshAdded>([this](MeshAdded const& event)
+    listener_.log<SetRenderable>([this](SetRenderable const& event)
         {
             meshes_.emplace_back(event.mesh);
         });
 
-    listener_.log<LightAdded>([this](LightAdded const& event)
+    listener_.log<SetLighter>([this](SetLighter const& event)
         {
             lights_.emplace_back(event.light);
 
@@ -40,18 +41,27 @@ RenderSystem::RenderSystem(Dispatcher& dispatcher) :
             shader_.projection(projection_);
         });
 
-    listener_.log<CameraAdded>([this](CameraAdded const& event)
+    listener_.log<SetViewer>([this](SetViewer const& event)
         {
-            viewer_.set_camera(event.camera);
+            cameras_.insert({event.entity_id, RenderCamera(event.camera)});
+        });
+
+    listener_.log<View>([this](View const& event)
+        {
+            active_camera = event.entity_id;
         });
 }
 
+
 void RenderSystem::render()
 {
+    assert(cameras_.find(active_camera) != cameras_.end());
+    RenderCamera& camera = cameras_.at(active_camera);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shader_.use();
-    shader_.view(viewer_.view());
+    shader_.view(camera.view());
     for(size_t i = 0; i < lights_.size(); ++i)
         shader_.light(lights_[i], i);
 
@@ -62,6 +72,7 @@ void RenderSystem::render()
         mesh.render();
     }
 }
+
 
 void RenderSystem::resize(unsigned width, unsigned height)
 {

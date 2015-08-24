@@ -10,7 +10,7 @@
 #include "Events.h"
 
 #include "PhongShader.h"
-#include "Viewer.h"
+#include "RenderCamera.h"
 #include "RenderLight.h"
 #include "RenderMesh.h"
 
@@ -18,7 +18,8 @@ class Dispatcher;
 class RenderSystem : public RenderContext
 {
     using Listener = EventListener<WindowCreated, WindowResized,
-                                   MeshAdded, LightAdded, CameraAdded>;
+                                   SetRenderable, SetLighter, SetViewer,
+                                   View>;
 
     public:
         RenderSystem(Dispatcher& dispatcher);
@@ -34,7 +35,8 @@ class RenderSystem : public RenderContext
         PhongShader shader_;
         glm::mat4 projection_;
 
-        Viewer viewer_;
+        unsigned active_camera;
+        std::map<unsigned, RenderCamera> cameras_;
         std::vector<RenderLight> lights_;
         std::vector<RenderMesh> meshes_;
 };

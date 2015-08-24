@@ -22,9 +22,7 @@ class EventDispatcher<T>
         template<class U>
         void emit(const U& event)
         {
-            // Le type de l'évènement doit correspondre à celui du dispatcher
-            // (sinon l'évènement reste non traité)
-            assert((std::is_same<U, T>::value));
+            assert((std::is_same<T, U>::value));
 
             // On envoie l'évènement aux listeners attachés au dispatcher
             for(EventListener<T>* listener : attached_)
@@ -52,14 +50,14 @@ class EventDispatcher<T, Others...> : private EventDispatcher<Others...>
         void emit(const U& event)
         {
             // Si le type de l'évènement correspond à celui du dispatcher
-            if(std::is_same<U, T>::value)
+            if(std::is_same<T, U>::value)
             {
                 // On envoie l'évènement aux listeners attachés au dispatcher
                 for(EventListener<T>* listener : attached_)
                     listener->push((const T&)event);
             }
 
-            // Sinon on passe l'évènement au "sous-dispatcher" parent
+            // Puis on passe l'évènement au "sous-dispatcher" parent
             else
                 EventDispatcher<Others...>::template emit<U>(event);
         }

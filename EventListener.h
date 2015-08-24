@@ -41,7 +41,6 @@ class EventListener<T>
         VectorProxy<U> events()
         {
             // Le type demandé doit correspondre à celui de ce sous-dispatcher
-            // (sinon le vecteur du type le plus à droite est converti)
             assert((std::is_same<U, T>::value));
             return VectorProxy<U>((std::vector<U>&)events_);
         }
@@ -51,7 +50,6 @@ class EventListener<T>
         void log(std::function<void(const U&)>&& func)
         {
             // Le type demandé doit correspondre à celui de ce sous-dispatcher
-            // (sinon le callback est converti et attribuée sous-dispatcher du type le plus à droite)
             assert((std::is_same<U, T>::value));
             callback_ = std::move((std::function<void(const T&)>&&)func);
         }

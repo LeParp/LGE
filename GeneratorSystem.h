@@ -1,14 +1,13 @@
 #ifndef GENERATORSYSTEM_H
 #define GENERATORSYSTEM_H
 
-#include <memory>
+#include <vector>
 
 #include "EventListener.h"
 #include "Events.h"
 
 #include "Loader.h"
-#include "Player.h"
-#include "Terrain.h"
+#include "Model.h"
 
 class Dispatcher;
 
@@ -26,8 +25,8 @@ class GeneratorSystem
         Listener listener_;
 
         Loader loader_;
-        Player player_;
-        Terrain terrain_;
+        std::vector<Model> models_;
+        unsigned entities_seed_;
 };
 
 #endif // GENERATORSYSTEM_H

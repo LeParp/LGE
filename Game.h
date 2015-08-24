@@ -6,6 +6,7 @@
 #include "UISystem.h"
 #include "GeneratorSystem.h"
 #include "InputSystem.h"
+#include "PhysicSystem.h"
 #include "RenderSystem.h"
 
 class Game
@@ -21,6 +22,7 @@ class Game
         UISystem ui_sys_;
         GeneratorSystem generator_sys_;
         InputSystem input_sys_;
+        PhysicSystem physic_sys_;
         RenderSystem render_sys_;
 };
 
