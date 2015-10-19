@@ -37,7 +37,6 @@ GeneratorSystem::GeneratorSystem(Dispatcher& dispatcher) :
             for(Light& light : model.lights()) {
                 dispatcher_.emit(SetLighter{new_entity, light});
             }
-            models_.push_back(std::move(model));
         }
     });
 }
