@@ -1,8 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <map>
-
 class EntitySeed
 {
     unsigned count_ = 1;
