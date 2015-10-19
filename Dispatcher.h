@@ -4,12 +4,10 @@
 #include "EventDispatcher.h"
 #include "Events.h"
 
-class Dispatcher : public EventDispatcher<GameStarted,
-                                          WindowCreated, WindowResized,
-                                          SetPlayable, Play,
-                                          SetGround, SetDynamicBody, Move, Rotate, ApplyForce,
-                                          SetRenderable, SetLighter, SetViewer, View>
-{
-};
+using Dispatcher = EventDispatcher<GameStarted,
+                                   WindowCreated, WindowResized, KeyPressed,
+                                   SetPlayable, Play,
+                                   SetGround, SetDynamicBody, Impulse, Collided,
+                                   SetRenderable, SetLighter, SetViewer, View>;
 
 #endif // DISPATCHER_H

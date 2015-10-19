@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "EventListener.h"
+#include "Dispatcher.h"
 #include "Events.h"
 
 #include "Loader.h"
+#include "Entity.h"
 #include "Model.h"
-
-class Dispatcher;
 
 class GeneratorSystem
 {
@@ -25,8 +25,8 @@ class GeneratorSystem
         Listener listener_;
 
         Loader loader_;
+        EntitySeed entities_seed_;
         std::vector<Model> models_;
-        unsigned entities_seed_;
 };
 
 #endif // GENERATORSYSTEM_H

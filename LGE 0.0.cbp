@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="LGE 0.0" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Render\;Physic\;Input\;Objects\;Interface\;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/LGE 0" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add library="sfml-system-d" />
+					<Add library="sfml-window-d" />
+					<Add library="sfml-graphics-d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/LGE 0" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="sfml-system" />
+					<Add library="sfml-window" />
+					<Add library="sfml-graphics" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+			<Add directory="../../Librairies/SFML-2.3.1/include" />
+			<Add directory="../../Librairies/glew-1.12.0/include" />
+			<Add directory="../../Librairies/glm-0.9.6.3" />
+		</Compiler>
+		<Linker>
+			<Add library="glew32" />
+			<Add library="opengl32" />
+			<Add directory="../../Librairies/SFML-2.3.1/lib" />
+			<Add directory="../../Librairies/glew-1.12.0/lib" />
+		</Linker>
+		<Unit filename="Camera.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Camera.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="ComponentList.cpp" />
+		<Unit filename="ComponentList.h" />
+		<Unit filename="ContainerProxy.cpp" />
+		<Unit filename="ContainerProxy.h" />
+		<Unit filename="Dispatcher.cpp" />
+		<Unit filename="Dispatcher.h" />
+		<Unit filename="DynamicBody.cpp">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="DynamicBody.h">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="Entity.cpp" />
+		<Unit filename="Entity.h" />
+		<Unit filename="EventDispatcher.cpp" />
+		<Unit filename="EventDispatcher.h" />
+		<Unit filename="EventListener.cpp" />
+		<Unit filename="EventListener.h" />
+		<Unit filename="Events.cpp" />
+		<Unit filename="Events.h" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.h" />
+		<Unit filename="GeneratorSystem.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="GeneratorSystem.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Ground.cpp">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="Ground.h">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="InputPlayer.cpp">
+			<Option virtualFolder="Input/" />
+		</Unit>
+		<Unit filename="InputPlayer.h">
+			<Option virtualFolder="Input/" />
+		</Unit>
+		<Unit filename="InputSystem.cpp">
+			<Option virtualFolder="Input/" />
+		</Unit>
+		<Unit filename="InputSystem.h">
+			<Option virtualFolder="Input/" />
+		</Unit>
+		<Unit filename="Light.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Light.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Loader.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Loader.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Material.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Material.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Mesh.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Mesh.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Model.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Model.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Node.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Node.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Object.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Object.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="PhongShader.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="PhongShader.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="PhysicSystem.cpp">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="PhysicSystem.h">
+			<Option virtualFolder="Physic/" />
+		</Unit>
+		<Unit filename="RenderCamera.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderCamera.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderContext.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderContext.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderLight.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderLight.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderMaterial.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderMaterial.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderMesh.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderMesh.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderSystem.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderSystem.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderTexture.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="RenderTexture.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="Shader.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="Shader.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="Texture.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Texture.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Timer.cpp" />
+		<Unit filename="Timer.h" />
+		<Unit filename="UISystem.cpp">
+			<Option virtualFolder="Interface/" />
+		</Unit>
+		<Unit filename="UISystem.h">
+			<Option virtualFolder="Interface/" />
+		</Unit>
+		<Unit filename="Vertex.cpp">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="Vertex.h">
+			<Option virtualFolder="Objects/" />
+		</Unit>
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -2,15 +2,10 @@
 
 #include <cassert>
 
-Ground::Ground() :
-    terrain_(nullptr)
+Ground::Ground(Mesh& mesh) :
+    mesh_(mesh)
 {
 
 }
 
-
-void Ground::set_terrain(Mesh& terrain)
-{
-    terrain_ = &terrain;
-}
 

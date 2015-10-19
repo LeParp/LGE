@@ -1,12 +1,13 @@
 #include "PhongShader.h"
 
+#include <cassert>
 #include <regex>
 
 PhongShader::PhongShader(unsigned lights_count)
 {
     std::string vertex_source = R"(
         #version 330 core
-        #line 9
+        #line 10
 
         layout (location = 0) in vec3 vertex_position_M;
         layout (location = 1) in vec3 vertex_normal_M;
@@ -30,7 +31,7 @@ PhongShader::PhongShader(unsigned lights_count)
 
     std::string fragment_source = R"(
         #version 330 core
-        #line 33
+        #line 34
 
         in vec3 fragment_position_E;
         in vec3 fragment_normal_E;
@@ -91,21 +92,16 @@ PhongShader::PhongShader(unsigned lights_count)
             vec3 material_diffuse = Material.diffuse_color;
             vec3 material_specular = Material.specular_color;
 
-            if(Material.textured)
-            {
+            if(Material.textured) {
                 material_diffuse *= pow(texture(Material.diffuse_texture, fragment_texcoords).rgb, vec3(gamma));
                 material_specular *= pow(texture(Material.specular_texture, fragment_texcoords).rgb, vec3(gamma));
             }
 
             final_color = vec4(0.0, 0.0, 0.0, 1.0);
 
-            for(int i = 0; i < $lights_count; ++i)
-            {
+            for(int i = 0; i < $lights_count; ++i) {
                 final_color.rgb += light_impact(i, material_diffuse, material_specular);
             }
-
-            /*if(final_color.r > 1.0 || final_color.g > 1.0 || final_color.b > 1.0)
-                discard;*/
 
             final_color.rgb = pow(final_color.rgb, vec3(1.0 / gamma));
         }
@@ -127,8 +123,7 @@ PhongShader::PhongShader(unsigned lights_count)
     glUniform1i(glGetUniformLocation(program(), "Material.diffuse_texture"), MATERIAL_DIFFUSE);
     glUniform1i(glGetUniformLocation(program(), "Material.specular_texture"), MATERIAL_SPECULAR);
 
-    for(GLuint i = 0; i < lights_count; ++i)
-    {
+    for(GLuint i = 0; i < lights_count; ++i) {
         array_locations_[LIGHT_POSITION].push_back(glGetUniformLocation(program(), ("Lights[" + std::to_string(i) + "].position").c_str()));
         array_locations_[LIGHT_COLOR].push_back(glGetUniformLocation(program(), ("Lights[" + std::to_string(i) + "].color").c_str()));
         array_locations_[LIGHT_ATTENUATIONS].push_back(glGetUniformLocation(program(), ("Lights[" + std::to_string(i) + "].attenuations").c_str()));
@@ -153,15 +148,18 @@ PhongShader& PhongShader::operator=(PhongShader&& other)
 
 void PhongShader::projection(glm::mat4 value)
 {
+    assert(is_in_use());
     glUniformMatrix4fv(locations_[PROJECTION], 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void PhongShader::view(glm::mat4 value)
 {
+    assert(is_in_use());
     glUniformMatrix4fv(locations_[VIEW], 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void PhongShader::model(glm::mat4 value)
 {
+    assert(is_in_use());
     glUniformMatrix4fv(locations_[MODEL], 1, GL_FALSE, glm::value_ptr(value));
 }

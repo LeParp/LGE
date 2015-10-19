@@ -5,12 +5,10 @@ class Mesh;
 class Ground
 {
     public:
-        Ground();
-
-        void set_terrain(Mesh& terrain);
+        Ground(Mesh& mesh);
 
     private:
-        Mesh* terrain_;
+        Mesh& mesh_;
 };
 
 #endif // GROUND_H

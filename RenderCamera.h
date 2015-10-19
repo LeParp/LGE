@@ -6,7 +6,7 @@
 class RenderCamera
 {
     public:
-        RenderCamera(Camera const& camera);
+        RenderCamera(const Camera& camera);
         RenderCamera(Camera&& camera) = delete;
 
         glm::mat4 view() const;

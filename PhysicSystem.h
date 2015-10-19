@@ -1,18 +1,17 @@
 #ifndef PHYSICSYSTEM_H
 #define PHYSICSYSTEM_H
 
-#include <map>
-
 #include "EventListener.h"
+#include "Dispatcher.h"
 #include "Events.h"
 
+#include "ComponentList.h"
 #include "Ground.h"
-#include "PhysicMesh.h"
+#include "DynamicBody.h"
 
-class Dispatcher;
 class PhysicSystem
 {
-    using Listener = EventListener<SetDynamicBody, SetGround, ApplyForce>;
+    using Listener = EventListener<SetGround, SetDynamicBody, Impulse>;
 
     public:
         PhysicSystem(Dispatcher& dispatcher);
@@ -23,8 +22,8 @@ class PhysicSystem
         Dispatcher& dispatcher_;
         Listener listener_;
 
-        Ground ground_;
-        std::map<unsigned, PhysicMesh> meshes_;
+        ComponentList<Ground> grounds_;
+        ComponentList<DynamicBody> bodies_;
 };
 
 #endif // PHYSICSYSTEM_H

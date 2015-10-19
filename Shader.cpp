@@ -36,6 +36,13 @@ void Shader::use()
     glUseProgram(program_);
 }
 
+bool Shader::is_in_use()
+{
+    GLint in_use_program = 0;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &in_use_program);
+    return static_cast<GLuint>(in_use_program) == program_;
+}
+
 GLuint Shader::program()
 {
     return program_;

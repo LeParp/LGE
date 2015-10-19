@@ -72,7 +72,7 @@ Model Loader::load_model(std::string const& filename)
                               {{-10.0, 0.0, 10.0}, {0.0, 1.0, 0.0}, {0.0, 1.0}}
                           };
 
-        mesh.material().diffuse_color() = {1.0, 0.6, 0.0};
+        mesh.material().diffuse_color() = {1.0, 1.0, 1.0};
         mesh.material().specular_color() = {1.0, 1.0, 1.0};
         mesh.material().shininess() = 128.0;
         mesh.material().textured() = true;
@@ -83,17 +83,17 @@ Model Loader::load_model(std::string const& filename)
         Light light;
         light.color() = {1.0, 1.0, 1.0};
         light.attenuations() = {1.0, 0.045, 0.0075};
-        light.translate({0.0, -1.0, -1.0});
+        light.translate({-2.0, 1.0, -1.0});
 
         Light light2;
-        light2.color() = {1.0, 0.0, 1.0};
+        light2.color() = {1.0, 0.0, 0.0};
         light2.attenuations() = {1.0, 0.045, 0.0075};
-        light2.translate({0.0, 1.0, 1.0});
+        light2.translate({0.0, 1.0, 2.0});
 
         Light light3;
-        light3.color() = {1.0, 0.0, 0.0};
+        light3.color() = {1.0, 1.0, 0.0};
         light3.attenuations() = {1.0, 0.045, 0.0075};
-        light3.translate({4.0, 0.0, -4.0});
+        light3.translate({4.0, 1.0, -4.0});
 
         model.add_mesh("Terrain", std::move(mesh));
         model.add_light("Light", std::move(light));

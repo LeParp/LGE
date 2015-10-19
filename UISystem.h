@@ -2,11 +2,11 @@
 #define UISYSTEM_H
 
 #include "EventListener.h"
+#include "Dispatcher.h"
 #include "Events.h"
 
-#include <SFML/Window/Window.hpp>
-
-class Dispatcher;
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 class UISystem
 {
@@ -24,8 +24,11 @@ class UISystem
         Dispatcher& dispatcher_;
         Listener listener_;
 
-        sf::Window window_;
+        sf::RenderWindow window_;
         bool running_;
+
+        //Menu menu_;
+        sf::Font font_;
 };
 
 #endif // UISYSTEM_H

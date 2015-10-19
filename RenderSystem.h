@@ -1,21 +1,19 @@
 #ifndef RENDERSYSTEM_H
 #define RENDERSYSTEM_H
 
-#include <memory>
-#include <vector>
-
 #include "RenderContext.h"
 
 #include "EventListener.h"
+#include "Dispatcher.h"
 #include "Events.h"
 
+#include "ComponentList.h"
 #include "PhongShader.h"
 #include "RenderCamera.h"
 #include "RenderLight.h"
 #include "RenderMesh.h"
 
-class Dispatcher;
-class RenderSystem : public RenderContext
+class RenderSystem : private RenderContext
 {
     using Listener = EventListener<WindowCreated, WindowResized,
                                    SetRenderable, SetLighter, SetViewer,
@@ -35,10 +33,10 @@ class RenderSystem : public RenderContext
         PhongShader shader_;
         glm::mat4 projection_;
 
-        unsigned active_camera;
-        std::map<unsigned, RenderCamera> cameras_;
-        std::vector<RenderLight> lights_;
-        std::vector<RenderMesh> meshes_;
+        Entity viewer_;
+        ComponentList<RenderCamera> cameras_;
+        ComponentList<RenderLight> lights_;
+        ComponentList<RenderMesh> meshes_;
 };
 
 #endif // RENDERSYSTEM_H

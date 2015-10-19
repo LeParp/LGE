@@ -4,7 +4,6 @@
 #include <vector>
 #include <functional>
 #include <type_traits>
-#include <cassert>
 
 #include "ContainerProxy.h"
 
@@ -20,57 +19,50 @@ template<class T>
 class EventListener<T>
 {
     public:
-        // Nettoie la liste des évènements à traiter de type U
+        // Nettoie la liste des évènements à traiter
         template<class U>
-        void clear()
+        std::enable_if_t<std::is_same<T, U>::value, void>
+            clear()
         {
-            // Le type demandé doit correspondre à celui de ce sous-dispatcher
-            // (sinon l'appel de l'utilisateur est sans-effet)
-            assert((std::is_same<U, T>::value));
             events_.clear();
         }
 
-        // Nettoie toutes les listes d'évènements à traiter
-        void clear_all()
-        {
-            EventListener<T>::template clear<T>();
+        void clear_all() {
+            events_.clear();
         }
 
         // Consulte les évènements enregistrés
         template<class U>
-        VectorProxy<U> events()
+        std::enable_if_t<std::is_same<T, U>::value, VectorProxy<T>>
+            events()
         {
-            // Le type demandé doit correspondre à celui de ce sous-dispatcher
-            assert((std::is_same<U, T>::value));
-            return VectorProxy<U>((std::vector<U>&)events_);
+            return VectorProxy<T>(events_);
         }
 
         // Enregistre une fonction callback pour le type spécifié
-        template<class U>
-        void log(std::function<void(const U&)>&& func)
+        template<class U = T>
+        std::enable_if_t<std::is_same<T, U>::value, void>
+            log(std::function<void(const T&)>&& func)
         {
-            // Le type demandé doit correspondre à celui de ce sous-dispatcher
-            assert((std::is_same<U, T>::value));
-            callback_ = std::move((std::function<void(const T&)>&&)func);
+            callback_ = std::move(func);
         }
 
     private:
         // Appelée par le dispatcher pour faire passer un évènement
-        void push(const T& event)
-        {
+        void push(const T& event) {
             // Si une fonction callback est spécifiée, on l'appel
             if(callback_)
-                callback_((const T&)event);
+                callback_(event);
 
             // Sinon on ajoute à la liste des évènements à traiter
             else
-                events_.push_back((const T&)event);
+                events_.push_back(event);
         }
 
         std::vector<T> events_;
         std::function<void(const T&)> callback_;
 
-    template<class... X>
+    template<class...>
     friend class EventDispatcher;
 };
 
@@ -79,40 +71,54 @@ class EventListener<T, Others...> : private EventListener<T>, private EventListe
 {
     public:
         template<class U>
-        void clear()
+        std::enable_if_t<std::is_same<T, U>::value, void>
+            clear()
         {
-            if(std::is_same<U, T>::value)
-                EventListener<T>::template clear<U>();
-
-            else
-                EventListener<Others...>::template clear<U>();
+            EventListener<T>::template clear<T>();
         }
 
-        void clear_all()
+        template<class U>
+        std::enable_if_t<!std::is_same<T, U>::value, void>
+            clear()
         {
+            EventListener<Others...>::template clear<U>();
+        }
+
+        void clear_all() {
             EventListener<T>::template clear<T>();
             EventListener<Others...>::clear_all();
         }
 
         template<class U>
-        VectorProxy<U> events()
+        std::enable_if_t<std::is_same<T, U>::value, VectorProxy<U>>
+            events()
         {
-            if(std::is_same<U, T>::value)
-                return EventListener<T>::template events<U>();
-
-            else
-                return EventListener<Others...>::template events<U>();
+            return EventListener<T>::template events<T>();
         }
 
         template<class U>
-        void log(std::function<void(const U&)>&& func)
+        std::enable_if_t<!std::is_same<T, U>::value, VectorProxy<U>>
+            events()
         {
-            if(std::is_same<U, T>::value)
-                EventListener<T>::template log<U>(std::move(func));
-
-            else
-                EventListener<Others...>::template log<U>(std::move(func));
+            return EventListener<Others...>::template events<U>();
         }
+
+        template<class U = T>
+        std::enable_if_t<std::is_same<T, U>::value, void>
+            log(std::function<void(const T&)>&& func)
+        {
+            EventListener<T>::template log(std::move(func));
+        }
+
+        template<class U>
+        std::enable_if_t<!std::is_same<T, U>::value, void>
+            log(std::function<void(const U&)>&& func)
+        {
+            EventListener<Others...>::template log<U>(std::move(func));
+        }
+
+    template<class...>
+    friend class EventDispatcher;
 };
 
 #endif // EVENTLISTENER_H

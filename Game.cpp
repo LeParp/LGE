@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "Events.h"
+
 Game::Game() :
     ui_sys_(dispatcher_),
     generator_sys_(dispatcher_),
@@ -12,7 +14,7 @@ Game::Game() :
 
 void Game::run()
 {
-    dispatcher_.emit(GameStarted());
+    dispatcher_.emit(GameStarted{});
 
     while(ui_sys_.running())
     {
@@ -20,6 +22,7 @@ void Game::run()
         generator_sys_.update();
         input_sys_.update();
         physic_sys_.update();
+
         render_sys_.render();
         ui_sys_.display();
     }

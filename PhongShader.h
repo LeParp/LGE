@@ -25,15 +25,13 @@ class PhongShader : public Shader
         void view(glm::mat4 value);
         void model(glm::mat4 value);
 
-        void light(auto& light, GLuint n)
-        {
+        void light(auto& light, GLuint n) {
             glUniform3fv(array_locations_[LIGHT_POSITION][n], 1, glm::value_ptr(light.position()));
             glUniform3fv(array_locations_[LIGHT_COLOR][n], 1, glm::value_ptr(light.color()));
             glUniform3fv(array_locations_[LIGHT_ATTENUATIONS][n], 1, glm::value_ptr(light.attenuations()));
         }
 
-        void material(auto& material)
-        {
+        void material(auto& material) {
             if(material.textured())
                 material.bind(MATERIAL_DIFFUSE, MATERIAL_SPECULAR);
 

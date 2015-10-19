@@ -1,14 +1,26 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
+#include <SFML/Window/Keyboard.hpp>
 #include <glm/vec3.hpp>
 
-class Node;
-class Mesh;
-class Light;
-class Camera;
+#include "Entity.h"
+#include "Node.h"
+#include "Mesh.h"
+#include "Light.h"
+#include "Camera.h"
 
 struct GameStarted
+{
+
+};
+
+struct GamePaused
+{
+
+};
+
+struct GameResumed
 {
 
 };
@@ -23,71 +35,70 @@ struct WindowResized
     unsigned width, height;
 };
 
+using Key = sf::Keyboard::Key;
+struct KeyPressed
+{
+    Key key;
+};
+
+struct Play
+{
+    Entity entity;
+};
+
 struct SetPlayable
 {
-    unsigned entity_id;
+    Entity entity;
     Node& body;
     Node& vertical_rotor;
     Node& horizontal_rotor;
 };
 
-struct SetDynamicBody
-{
-    unsigned entity_id;
-    Mesh& mesh;
-};
-
 struct SetGround
 {
-    unsigned entity_id;
+    Entity entity;
     Mesh& mesh;
 };
 
-struct Move
+struct SetDynamicBody
 {
-    unsigned entity_id;
-    glm::vec3 movement;
+    Entity entity;
+    Mesh& mesh;
+    Node& root;
 };
 
-struct Rotate
+struct Impulse
 {
-    unsigned entity_id;
-    glm::vec3 axis;
-    float angle;
+    Entity entity;
+    glm::vec3 amount;
 };
 
-struct ApplyForce
+struct Collided
 {
-    unsigned entity_id;
-    glm::vec3 force;
+    Entity entity;
 };
 
 struct SetRenderable
 {
-    unsigned entity_id;
+    Entity entity;
     Mesh& mesh;
 };
 
 struct SetLighter
 {
-    unsigned entity_id;
+    Entity entity;
     Light& light;
 };
 
 struct SetViewer
 {
-    unsigned entity_id;
+    Entity entity;
     Camera& camera;
-};
-
-struct Play
-{
-    unsigned entity_id;
 };
 
 struct View
 {
-    unsigned entity_id;
+    Entity entity;
 };
 
 #endif // EVENTS_H

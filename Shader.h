@@ -16,6 +16,7 @@ class Shader
         Shader& operator=(Shader const& other) = delete;
 
         void use();
+        bool is_in_use();
 
     protected:
         GLuint program();
